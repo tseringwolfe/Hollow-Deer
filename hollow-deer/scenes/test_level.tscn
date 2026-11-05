@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://dtcgj24l6d3ik"]
+
+[ext_resource type="PackedScene" uid="uid://c4jbvfckfkh7a" path="res://scenes/player.tscn" id="1_2venv"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_olr6o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aue8r"]
+size = Vector2(600, 20)
+
+[node name="TestLevel" type="Node2D" unique_id=1990286577]
+
+[node name="Player" parent="." unique_id=1543709985 instance=ExtResource("1_2venv")]
+position = Vector2(100, 150)
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=2044707598]
+zoom = Vector2(6, 6)
+
+[node name="Ground" type="StaticBody2D" parent="." unique_id=261207557]
+position = Vector2(320, 160)
+physics_material_override = SubResource("PhysicsMaterial_olr6o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=7902938]
+shape = SubResource("RectangleShape2D_aue8r")
+
+[node name="ColorRect" type="ColorRect" parent="Ground" unique_id=1869422344]
+offset_left = -300.0
+offset_top = -10.0
+offset_right = 300.0
+offset_bottom = 10.0
+color = Color(0.50360054, 0.47421294, 0.71523076, 1)
