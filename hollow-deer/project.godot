@@ -72,3 +72,7 @@ pause={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+
+[debug]
+
+gdscript/warnings/untyped_declaration=1

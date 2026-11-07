@@ -1,1 +1,26 @@
-* @tseringwolfe @gabe-ven @vivtruon @duran-suma @nsunku @bpaleru
+# Default: Technical Producer
+*                                       @duran-suma
+
+/tools/                                 @duran-suma
+/docs/                                  @duran-suma
+/hollow-deer/addons/                    @duran-suma
+/hollow-deer/scripts/autoload/          @duran-suma @tseringwolfe
+
+/hollow-deer/scenes/actors/player/      @tseringwolfe
+/hollow-deer/scripts/actors/player/     @tseringwolfe
+/hollow-deer/scenes/components/         @tseringwolfe
+/hollow-deer/scripts/components/        @tseringwolfe
+/hollow-deer/resources/                 @tseringwolfe
+
+/hollow-deer/scenes/actors/enemies/     @gabe-ven
+/hollow-deer/scripts/actors/enemies/    @gabe-ven
+/hollow-deer/scenes/actors/bosses/      @gabe-ven
+/hollow-deer/scripts/actors/bosses/     @gabe-ven
+
+/hollow-deer/scenes/levels/             @nsunku
+/hollow-deer/scripts/levels/            @nsunku
+
+/hollow-deer/scenes/ui/                 @bpaleru
+/hollow-deer/scripts/ui/                @bpaleru
+
+/hollow-deer/assets/                    @vivtruon

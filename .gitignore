@@ -3,3 +3,7 @@
 /android/
 
 .DS_Store
+
+# Export output
+build/
+
