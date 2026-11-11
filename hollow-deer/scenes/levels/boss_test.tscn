@@ -1,0 +1,94 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/boss_test.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://c4jbvfckfkh7a" path="res://scenes/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/actors/bosses/wolf.tscn" id="3_wolf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(480, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(20, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ledge"]
+size = Vector2(60, 8)
+
+[node name="BossTest" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+unique_name_in_owner = true
+position = Vector2(60, 150)
+collision_layer = 2
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(3, 3)
+
+[node name="Wolf" parent="." instance=ExtResource("3_wolf")]
+unique_name_in_owner = true
+position = Vector2(380, 150)
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(240, 160)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="ColorRect" type="ColorRect" parent="Ground"]
+offset_left = -240.0
+offset_top = -10.0
+offset_right = 240.0
+offset_bottom = 10.0
+color = Color(0.5, 0.47, 0.72, 1)
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+position = Vector2(-10, 60)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="LeftWall"]
+offset_left = -10.0
+offset_top = -100.0
+offset_right = 10.0
+offset_bottom = 100.0
+color = Color(0.5, 0.47, 0.72, 1)
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+position = Vector2(490, 60)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="RightWall"]
+offset_left = -10.0
+offset_top = -100.0
+offset_right = 10.0
+offset_bottom = 100.0
+color = Color(0.5, 0.47, 0.72, 1)
+
+[node name="LedgeLeft" type="StaticBody2D" parent="."]
+position = Vector2(140, 115)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LedgeLeft"]
+shape = SubResource("RectangleShape2D_ledge")
+
+[node name="ColorRect" type="ColorRect" parent="LedgeLeft"]
+offset_left = -30.0
+offset_top = -4.0
+offset_right = 30.0
+offset_bottom = 4.0
+color = Color(0.5, 0.47, 0.72, 1)
+
+[node name="LedgeRight" type="StaticBody2D" parent="."]
+position = Vector2(340, 115)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LedgeRight"]
+shape = SubResource("RectangleShape2D_ledge")
+
+[node name="ColorRect" type="ColorRect" parent="LedgeRight"]
+offset_left = -30.0
+offset_top = -4.0
+offset_right = 30.0
+offset_bottom = 4.0
+color = Color(0.5, 0.47, 0.72, 1)
