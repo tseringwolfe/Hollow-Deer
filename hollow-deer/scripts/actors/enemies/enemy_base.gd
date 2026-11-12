@@ -17,6 +17,10 @@ enum State { IDLE, CHASE, ATTACK, DEAD }
 @export var attack_recovery: float = 0.4
 @export var attack_cooldown: float = 1.0
 @export var windup_tint: Color = Color(1.0, 0.4, 0.4)
+## How far ahead to look for floor before stepping. Stops enemies chasing off ledges.
+@export var ledge_check_distance: float = 8.0
+## A drop deeper than this counts as a ledge.
+@export var ledge_check_depth: float = 12.0
 
 var _state: State = State.IDLE
 var _target: Node2D = null
@@ -42,6 +46,9 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 	_state_time += delta
 	_cooldown_left = maxf(_cooldown_left - delta, 0.0)
+	if _target and not is_instance_valid(_target):
+		# Player was freed (e.g. died and the level reloaded them).
+		_target = null
 
 	match _state:
 		State.IDLE:
@@ -119,8 +126,8 @@ func _update_attack() -> void:
 ## Default movement: walk straight at the target. Override for other styles.
 func _move_toward_target(_delta: float) -> void:
 	var dir := _direction_to_target()
-	velocity.x = dir * move_speed
 	_face(dir)
+	velocity.x = dir * move_speed if _has_floor_ahead(dir) else 0.0
 
 
 func _strike() -> void:
@@ -134,6 +141,15 @@ func _strike() -> void:
 
 func _can_attack() -> bool:
 	return _cooldown_left == 0.0 and _attack_area.overlaps_body(_target)
+
+
+## True if there is ground just ahead in direction dir, or if airborne
+## (mid-air there is nothing to check against).
+func _has_floor_ahead(dir: float) -> bool:
+	if dir == 0.0 or not is_on_floor():
+		return true
+	var ahead := global_transform.translated(Vector2(dir * ledge_check_distance, 0.0))
+	return test_move(ahead, Vector2(0.0, ledge_check_depth))
 
 
 func _direction_to_target() -> float:
