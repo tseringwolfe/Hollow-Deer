@@ -2,7 +2,7 @@
 
 ## Folder rules
 - `scenes/X/foo.tscn` has its script at `scripts/X/foo.gd`. The two trees mirror each other exactly.
-- Art used by only one scene lives in that scene's folder. Shared art goes in `assets/`, grouped by type.
+- Art goes in `assets/`, grouped by type.
 - Prefix files with the scene name, for example `wolf_sheet.png` and `wolf_stats.tres`.
 - Editor plugins go in `addons/`. Command-line scripts go in `tools/`.
 - `.gd` resource definitions and the `.tres` files that use them live together in `resources/`.
