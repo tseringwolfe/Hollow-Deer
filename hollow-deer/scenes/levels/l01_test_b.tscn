@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://c4jbvfckfkh7a" path="res://scenes/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/components/level_transition.tscn" id="6_transition"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(600, 20)
+
+[node name="L01TestB" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(300, 140)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+
+[node name="SpawnFromA" type="Marker2D" parent="."]
+position = Vector2(60, 140)
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(300, 160)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="ColorRect" type="ColorRect" parent="Ground"]
+offset_left = -300.0
+offset_top = -10.0
+offset_right = 300.0
+offset_bottom = 10.0
+color = Color(0.3, 0.6, 0.45, 1)
+
+[node name="ExitToA" parent="." instance=ExtResource("6_transition")]
+position = Vector2(10, 125)
+target_scene = "res://scenes/levels/l01_test_a.tscn"
+target_spawn = &"SpawnFromB"
