@@ -2,7 +2,9 @@ extends CharacterBody2D
 
 const SPEED = 100.0
 const JUMP_VELOCITY = -200.0
-const WALL_SLIDE_SPEED = 40.0
+const TIME_BEFORE_SLIDING = 0.25
+const WALL_SLIDE_ACCELERATION = 40.0
+const WALL_SLIDE_MAX_SPEED = 220.0
 const WALL_JUMP_PUSH_X = 160.0
 const WALL_JUMP_VELOCITY_Y = -200.0
 const WALL_JUMP_LOCKOUT = 0.12
@@ -11,18 +13,27 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var animated_sprite = $AnimatedSprite2D
 
 var _wall_jump_lockout := 0.0
+var _wall_cling_time := 0.0
 
 
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	if not is_on_floor():
+	var on_wall := is_on_wall_only()
+	var clinging := on_wall and velocity.y >= 0.0
+
+	# Gravity only applies when not clinging; clinging takes over the Y velocity.
+	if not is_on_floor() and not clinging:
 		velocity += get_gravity() * delta
 
-	var on_wall := is_on_wall_only()
-
-	# Wall slide: cap downward speed while hugging a wall mid-air.
-	if on_wall and velocity.y > 0:
-		velocity.y = min(velocity.y, WALL_SLIDE_SPEED)
+	# Wall cling: hold still briefly, then accelerate into a slide up to a max.
+	if clinging:
+		if _wall_cling_time < TIME_BEFORE_SLIDING:
+			velocity.y = 0.0
+		else:
+			var slide_time := _wall_cling_time - TIME_BEFORE_SLIDING
+			velocity.y = min(slide_time * WALL_SLIDE_ACCELERATION, WALL_SLIDE_MAX_SPEED)
+		_wall_cling_time += delta
+	else:
+		_wall_cling_time = 0.0
 
 	# Handle jump / wall jump.
 	if Input.is_action_just_pressed("jump"):
