@@ -9,6 +9,8 @@ extends CharacterBody2D
 ## invulnerable while it roars between phases.
 
 signal fight_started
+## The player died mid-fight; the Wolf is back to full health and asleep.
+signal fight_reset
 signal phase_changed(phase: int)
 signal health_changed(current: int, maximum: int)
 signal attack_landed(target: Node2D, damage: int)
@@ -99,9 +101,8 @@ func _physics_process(delta: float) -> void:
 	_state_time += delta
 
 	if _state != State.DORMANT and _state != State.DEAD and not is_instance_valid(_target):
-		# Player was freed (e.g. died and the level reloaded them). Go back to sleep.
-		_target = null
-		_change_state(State.DORMANT)
+		# Player was freed (e.g. died and the level reloaded them).
+		_reset_fight()
 
 	match _state:
 		State.DORMANT, State.RECOVER, State.ROAR, State.WINDUP:
@@ -173,6 +174,21 @@ func _change_state(new_state: State) -> void:
 			tween.tween_interval(1.0)
 			tween.tween_property(self, "modulate:a", 0.0, 0.8)
 			tween.finished.connect(queue_free)
+
+
+## Puts the Wolf back to its pre-fight state so a retry starts fresh:
+## full health, phase 1, asleep, and no bolts or spikes left in the arena.
+func _reset_fight() -> void:
+	_target = null
+	_health = max_health
+	_phase = 1
+	_repeat_count = 0
+	velocity = Vector2.ZERO
+	for child in get_children():
+		if child is WolfMagicBolt or child is WolfAntlerSpike:
+			child.queue_free()
+	_change_state(State.DORMANT)
+	fight_reset.emit()
 
 
 ## DORMANT, WINDUP, RECOVER and ROAR only wait for their timer to run out.

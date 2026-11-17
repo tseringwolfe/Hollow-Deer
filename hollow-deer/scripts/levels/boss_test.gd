@@ -13,6 +13,7 @@ const DEBUG_SKIP_DAMAGE := 5
 
 func _ready() -> void:
 	_wolf.fight_started.connect(func() -> void: print("Wolf fight started"))
+	_wolf.fight_reset.connect(func() -> void: print("Wolf fight reset"))
 	_wolf.phase_changed.connect(func(phase: int) -> void: print("Wolf phase %d" % phase))
 	_wolf.health_changed.connect(
 		func(current: int, maximum: int) -> void: print("Wolf HP %d/%d" % [current, maximum])
