@@ -9,9 +9,11 @@ const DEBUG_SKIP_DAMAGE := 5
 
 @onready var _player: CharacterBody2D = %Player
 @onready var _wolf: WolfBoss = %Wolf
+@onready var _health_bar: BossHealthBar = %BossHealthBar
 
 
 func _ready() -> void:
+	_health_bar.track(_wolf)
 	_wolf.fight_started.connect(func() -> void: print("Wolf fight started"))
 	_wolf.fight_reset.connect(func() -> void: print("Wolf fight reset"))
 	_wolf.phase_changed.connect(func(phase: int) -> void: print("Wolf phase %d" % phase))

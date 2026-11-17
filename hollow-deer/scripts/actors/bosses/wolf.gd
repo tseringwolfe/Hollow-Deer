@@ -144,6 +144,11 @@ func get_health() -> int:
 	return _health
 
 
+## Health fractions where phases 2 and 3 start, for drawing ticks on a health bar.
+func get_phase_thresholds() -> Array[float]:
+	return [phase_two_at, phase_three_at]
+
+
 func _change_state(new_state: State) -> void:
 	_state = new_state
 	_state_time = 0.0
