@@ -4,4 +4,4 @@ Add one row for every outside asset. Plugin licenses stay inside their `addons/`
 
 | File(s) | Author | Source URL | License | Added by |
 | --- | --- | --- | --- | --- |
-| cavesofgallet_tiles.png | Adam Saltsman | https://adamatomic.itch.io/cavernas | Public Domain | Vivian Truong |
+| PixelFantasy_Caves_1.0 | Szadi art. | https://szadiart.itch.io/pixel-fantasy-caves | Personal/Commercial | Vivian Truong |
