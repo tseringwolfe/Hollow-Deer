@@ -1,5 +1,9 @@
 extends CharacterBody2D
 
+signal dash_started
+signal dash_ended
+signal dash_available_changed(available: bool)
+
 const SPEED = 100.0
 const JUMP_VELOCITY = -200.0
 const TIME_BEFORE_SLIDING = 0.25
@@ -9,6 +13,17 @@ const WALL_JUMP_PUSH_X = 160.0
 const WALL_JUMP_VELOCITY_Y = -200.0
 const WALL_JUMP_LOCKOUT = 0.12
 
+#dash related exports
+@export var dash_speed: float = 300.0
+@export var dash_time: float = 0.15
+@export var dash_cooldown: float = 0.4
+
+var _is_dashing := false
+var _dash_timer := 0.0
+var _dash_cooldown_timer := 0.0 #stops player from dashing forever
+var _dash_direction := 1.0
+var _can_air_dash := true #we have a one-air-dash limit
+
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var animated_sprite = $AnimatedSprite2D
 
@@ -17,6 +32,21 @@ var _wall_cling_time := 0.0
 
 
 func _physics_process(delta: float) -> void:
+	if is_on_floor() and not _can_air_dash:
+		_can_air_dash = true
+		dash_available_changed.emit(true)
+
+	if _dash_cooldown_timer > 0.0:
+		_dash_cooldown_timer -= delta #reduce timer
+
+	if Input.is_action_just_pressed("dash") and _dash_cooldown_timer <= 0.0 and (is_on_floor() or _can_air_dash):
+		_start_dash()
+
+	if _is_dashing:
+		_update_dash(delta)
+		move_and_slide() #move player using dash velocity
+		return
+
 	var on_wall := is_on_wall_only()
 	var clinging := on_wall and velocity.y >= 0.0
 
@@ -76,3 +106,29 @@ func _physics_process(delta: float) -> void:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
+
+func _start_dash() -> void:
+	_is_dashing = true
+	_dash_timer = dash_time
+	_dash_cooldown_timer = dash_cooldown
+	if not is_on_floor():
+		_can_air_dash = false
+		dash_available_changed.emit(false)
+
+	var direction := Input.get_axis("move_left", "move_right")
+	if direction != 0:
+		_dash_direction = sign(direction)
+	#if you press dash without left or right just dash the way youre already facing
+	elif animated_sprite.flip_h:
+		_dash_direction = 1.0 #right
+	else:
+		_dash_direction = -1.0 #left
+	dash_started.emit()
+
+func _update_dash(delta: float) -> void:
+	velocity.x = _dash_direction * dash_speed
+	velocity.y = 0.0
+	_dash_timer -= delta
+	if _dash_timer <= 0.0:
+		_is_dashing = false
+		dash_ended.emit()
