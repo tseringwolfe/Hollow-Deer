@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://orucvdtqtom7"]
+
+[ext_resource type="Script" uid="uid://jkbr438mvdhr" path="res://scripts/levels/enemy_test.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://c4jbvfckfkh7a" path="res://scenes/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/actors/enemies/slime.tscn" id="3_slime"]
+[ext_resource type="PackedScene" path="res://scenes/actors/enemies/enemy_base.tscn" id="4_enemy_base"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(600, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ledge"]
+size = Vector2(60, 8)
+
+[node name="EnemyTest" type="Node2D" unique_id=856592003]
+script = ExtResource("1_script")
+
+[node name="Player" parent="." unique_id=1629465873 instance=ExtResource("2_player")]
+unique_name_in_owner = true
+position = Vector2(60, 150)
+collision_layer = 2
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1430426987]
+zoom = Vector2(4, 4)
+
+[node name="Enemies" type="Node2D" parent="." unique_id=1260124417]
+unique_name_in_owner = true
+
+[node name="Slime" parent="Enemies" unique_id=1760210157 instance=ExtResource("3_slime")]
+position = Vector2(200, 150)
+hop_velocity = -140.0
+hop_interval = 0.6
+
+[node name="Walker" parent="Enemies" unique_id=583324107 instance=ExtResource("4_enemy_base")]
+position = Vector2(320, 150)
+
+[node name="Ground" type="StaticBody2D" parent="." unique_id=273605537]
+position = Vector2(300, 160)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=811437494]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="ColorRect" type="ColorRect" parent="Ground" unique_id=1276062172]
+offset_left = -300.0
+offset_top = -10.0
+offset_right = 300.0
+offset_bottom = 10.0
+color = Color(0.5, 0.47, 0.72, 1)
+
+[node name="Ledge" type="StaticBody2D" parent="." unique_id=1345246500]
+position = Vector2(130, 125)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ledge" unique_id=464212532]
+shape = SubResource("RectangleShape2D_ledge")
+
+[node name="ColorRect" type="ColorRect" parent="Ledge" unique_id=1818163716]
+offset_left = -30.0
+offset_top = -4.0
+offset_right = 30.0
+offset_bottom = 4.0
+color = Color(0.5, 0.47, 0.72, 1)
