@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjv8wkgqxe8hg"
-path="res://.godot/imported/cavesofgallet_tiles.png-f0d0b580db6e5d09dddd1aaec5742628.ctex"
+uid="uid://dt5ac5bd60sb5"
+path="res://.godot/imported/background4a.png-6f3953437bd2d1fb60a7c52a4e5eb175.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cavesofgallet_tiles.png"
-dest_files=["res://.godot/imported/cavesofgallet_tiles.png-f0d0b580db6e5d09dddd1aaec5742628.ctex"]
+source_file="res://assets/PixelFantasy_Caves_1.0/background4a.png"
+dest_files=["res://.godot/imported/background4a.png-6f3953437bd2d1fb60a7c52a4e5eb175.ctex"]
 
 [params]
 
