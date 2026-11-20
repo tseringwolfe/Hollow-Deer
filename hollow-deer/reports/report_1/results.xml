@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites id="2026-11-19" name="report_1" tests="10" failures="0" skipped="0" flaky="0" time="0.000">
+	<testsuite id="0" name="player_test" package="test" timestamp="2026-11-20T01:21:41" hostname="localhost" tests="10" failures="0" errors="0" skipped="0" flaky="0" time="13.425">
+		<testcase name="test_player_scene_loads" classname="player_test" time="0.555">
+		</testcase>
+		<testcase name="test_move_right" classname="player_test" time="0.774">
+		</testcase>
+		<testcase name="test_move_left" classname="player_test" time="1.330">
+		</testcase>
+		<testcase name="test_releasing_movement_stops_player" classname="player_test" time="1.477">
+		</testcase>
+		<testcase name="test_jump_from_floor" classname="player_test" time="1.215">
+		</testcase>
+		<testcase name="test_cannot_jump_again_in_midair" classname="player_test" time="1.297">
+		</testcase>
+		<testcase name="test_player_lands_after_jumping" classname="player_test" time="2.717">
+		</testcase>
+		<testcase name="test_wall_cling_briefly_stops_falling" classname="player_test" time="1.178">
+		</testcase>
+		<testcase name="test_wall_cling_transitions_to_slide" classname="player_test" time="1.666">
+		</testcase>
+		<testcase name="test_wall_jump_pushes_up_and_away" classname="player_test" time="1.183">
+		</testcase>
+	</testsuite>
+</testsuites>
