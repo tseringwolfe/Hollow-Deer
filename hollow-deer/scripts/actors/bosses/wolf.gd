@@ -171,6 +171,7 @@ func _change_state(new_state: State) -> void:
 			_play("roar")
 		State.DEAD:
 			_play("death")
+			_clear_hazards()
 			collision_layer = 0
 			_detection_area.set_deferred("monitoring", false)
 			_melee_area.set_deferred("monitoring", false)
@@ -189,11 +190,17 @@ func _reset_fight() -> void:
 	_phase = 1
 	_repeat_count = 0
 	velocity = Vector2.ZERO
+	_clear_hazards()
+	_change_state(State.DORMANT)
+	fight_reset.emit()
+
+
+## Removes any bolts and spikes still in the arena, so they cannot hit the
+## player after the fight resets or the Wolf dies.
+func _clear_hazards() -> void:
 	for child in get_children():
 		if child is WolfMagicBolt or child is WolfAntlerSpike:
 			child.queue_free()
-	_change_state(State.DORMANT)
-	fight_reset.emit()
 
 
 ## DORMANT, WINDUP, RECOVER and ROAR only wait for their timer to run out.

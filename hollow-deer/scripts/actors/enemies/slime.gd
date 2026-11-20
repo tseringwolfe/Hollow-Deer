@@ -10,6 +10,11 @@ var _hop_wait: float = 0.0
 
 func _move_in_direction(dir: float, speed: float, delta: float) -> bool:
 	if not is_on_floor():
+		# Hit a wall mid-hop: stop pushing into it, and report it as blocked
+		# so a patrolling slime turns around.
+		if is_on_wall():
+			velocity.x = 0.0
+			return false
 		return true
 	velocity.x = 0.0
 	_hop_wait -= delta
