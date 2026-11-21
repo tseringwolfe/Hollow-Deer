@@ -28,3 +28,18 @@ offset_top = -10.0
 offset_right = 300.0
 offset_bottom = 10.0
 color = Color(0.50360054, 0.47421294, 0.71523076, 1)
+
+[node name="Wall" type="StaticBody2D" parent="." unique_id=1956208695]
+position = Vector2(400, 100)
+rotation = 1.5707964
+physics_material_override = SubResource("PhysicsMaterial_olr6o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall" unique_id=1162754977]
+shape = SubResource("RectangleShape2D_aue8r")
+
+[node name="ColorRect" type="ColorRect" parent="Wall" unique_id=1702249032]
+offset_left = -300.0
+offset_top = -10.0
+offset_right = 300.0
+offset_bottom = 10.0
+color = Color(0.50360054, 0.47421294, 0.71523076, 1)
