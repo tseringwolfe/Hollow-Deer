@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cjmg3elvb7sgh"]
 
 [ext_resource type="Texture2D" uid="uid://bnkei3iqib6lj" path="res://assets/dash_sheets/SmokeNDust P03 VFX 5.png" id="1_vcrwd"]
+[ext_resource type="Script" uid="uid://bytms8rvdxrxj" path="res://scripts/components/vfx.gd" id="2_vgjs8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vgjs8"]
 atlas = ExtResource("1_vcrwd")
@@ -52,10 +53,10 @@ animations = [{
 "speed": 12.0
 }]
 
-[node name="DashVisual" type="Node2D" unique_id=2105960111]
+[node name="DashSmoke" type="Node2D" unique_id=2105960111]
+script = ExtResource("2_vgjs8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=202906144]
-position = Vector2(-1, -10)
+position = Vector2(-5, -10)
 sprite_frames = SubResource("SpriteFrames_gbvcw")
-frame = 5
-frame_progress = 1.0
+autoplay = "default"

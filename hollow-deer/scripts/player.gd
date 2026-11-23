@@ -12,7 +12,6 @@ const WALL_SLIDE_MAX_SPEED = 220.0
 const WALL_JUMP_PUSH_X = 160.0
 const WALL_JUMP_VELOCITY_Y = -200.0
 const WALL_JUMP_LOCKOUT = 0.12
-const DASH_SMOKE = preload("res://scenes/components/dash_smoke.tscn")
 
 #dash related exports
 @export var dash_speed: float = 300.0
@@ -26,7 +25,7 @@ var _dash_direction := 1.0
 var _can_air_dash := true #we have a one-air-dash limit
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-@onready var animated_sprite = $AnimatedSprite2D
+@onready var animated_sprite := $AnimatedSprite2D
 
 var _wall_jump_lockout := 0.0
 var _wall_cling_time := 0.0
@@ -97,6 +96,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			animated_sprite.play("walk")
 	else:
+		# TODO: add dash animation
 		# TODO: swap to a wall_slide animation when it exists.
 		animated_sprite.play("jump")
 
@@ -127,7 +127,9 @@ func _start_dash() -> void:
 	else:
 		_dash_direction = -1.0 #left
 	
-	create_dash_smoke()
+	# TODO: implement offset calculation
+	# TODO: create dictionary for parameters
+	VFXManager.play("dash", global_position, _dash_direction < 0)
 		
 	dash_started.emit()
 
@@ -138,17 +140,3 @@ func _update_dash(delta: float) -> void:
 	if _dash_timer <= 0.0:
 		_is_dashing = false
 		dash_ended.emit()
-
-# TODO: move create_dash_smoke() to a VFX manager to avoid cluttering actor scenes
-func create_dash_smoke():
-	var smoke = DASH_SMOKE.instantiate()
-	
-	get_tree().current_scene.add_child(smoke)
-	smoke.global_position = global_position + Vector2(_dash_direction * -10, 0)
-	
-	var animation = smoke.get_node("AnimatedSprite2D")
-	animation.flip_h = _dash_direction < 0
-	animation.play("default")
-
-	await animation.animation_finished
-	smoke.queue_free()
