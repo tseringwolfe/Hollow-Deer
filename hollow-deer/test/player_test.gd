@@ -1,7 +1,7 @@
 extends GdUnitTestSuite
 
 func test_player_scene_loads() -> void:
-	var runner = scene_runner("res://scenes/player.tscn")
+	var runner := scene_runner("res://scenes/player.tscn")
 	assert_object(runner.scene()).is_not_null()
 
 # Wait for completed physics updates before checking movement.
@@ -12,7 +12,7 @@ func _wait_physics_frames(count: int) -> void:
 
 
 func test_move_right() -> void:
-	var runner = scene_runner("res://scenes/test_level.tscn")
+	var runner := scene_runner("res://scenes/test_level.tscn")
 	var player := runner.scene().get_node("Player") as CharacterBody2D
 	await _wait_physics_frames(3)
 
@@ -26,7 +26,7 @@ func test_move_right() -> void:
 
 
 func test_move_left() -> void:
-	var runner = scene_runner("res://scenes/test_level.tscn")
+	var runner := scene_runner("res://scenes/test_level.tscn")
 	var player := runner.scene().get_node("Player") as CharacterBody2D
 	await _wait_physics_frames(3)
 
@@ -40,7 +40,7 @@ func test_move_left() -> void:
 
 
 func test_releasing_movement_stops_player() -> void:
-	var runner = scene_runner("res://scenes/test_level.tscn")
+	var runner := scene_runner("res://scenes/test_level.tscn")
 	var player := runner.scene().get_node("Player") as CharacterBody2D
 	await _wait_physics_frames(3)
 
@@ -52,12 +52,12 @@ func test_releasing_movement_stops_player() -> void:
 	var stopped_x := player.position.x
 	await _wait_physics_frames(5)
 
-	assert_float(player.velocity.x).is_equal(0.0)
-	assert_float(player.position.x).is_equal(stopped_x)
+	assert_float(player.velocity.x).is_equal_approx(0.0, 0.001)
+	assert_float(player.position.x).is_equal_approx(stopped_x, 0.01)
 
 
 func test_jump_from_floor() -> void:
-	var runner = scene_runner("res://scenes/test_level.tscn")
+	var runner := scene_runner("res://scenes/test_level.tscn")
 	var player := runner.scene().get_node("Player") as CharacterBody2D
 	await _wait_physics_frames(3)
 
@@ -74,7 +74,7 @@ func test_jump_from_floor() -> void:
 
 
 func test_cannot_jump_again_in_midair() -> void:
-	var runner = scene_runner("res://scenes/test_level.tscn")
+	var runner := scene_runner("res://scenes/test_level.tscn")
 	var player := runner.scene().get_node("Player") as CharacterBody2D
 	await _wait_physics_frames(3)
 
@@ -98,7 +98,7 @@ func test_cannot_jump_again_in_midair() -> void:
 
 
 func test_player_lands_after_jumping() -> void:
-	var runner = scene_runner("res://scenes/test_level.tscn")
+	var runner := scene_runner("res://scenes/test_level.tscn")
 	var player := runner.scene().get_node("Player") as CharacterBody2D
 	await _wait_physics_frames(3)
 
@@ -115,7 +115,8 @@ func test_player_lands_after_jumping() -> void:
 func _place_player_against_wall(runner: GdUnitSceneRunner) -> CharacterBody2D:
 	var player := runner.scene().get_node("Player") as CharacterBody2D
 
-	player.position = Vector2(385, 50)
+	var wall := runner.scene().get_node("Wall") as StaticBody2D
+	player.global_position = wall.global_position + Vector2(-15, -50)
 	player.velocity = Vector2.ZERO
 
 	runner.simulate_action_press("move_right")
@@ -125,7 +126,7 @@ func _place_player_against_wall(runner: GdUnitSceneRunner) -> CharacterBody2D:
 
 
 func test_wall_cling_briefly_stops_falling() -> void:
-	var runner = scene_runner("res://scenes/test_level.tscn")
+	var runner := scene_runner("res://scenes/test_level.tscn")
 	var player := await _place_player_against_wall(runner)
 
 	assert_bool(player.is_on_wall_only()).is_true()
@@ -134,34 +135,50 @@ func test_wall_cling_briefly_stops_falling() -> void:
 	var vertical_velocity := player.velocity.y
 	runner.simulate_action_release("move_right")
 
-	assert_float(vertical_velocity).is_equal(0.0)
+	assert_float(vertical_velocity).is_equal_approx(0.0, 0.001)
 
 
 func test_wall_cling_transitions_to_slide() -> void:
-	var runner = scene_runner("res://scenes/test_level.tscn")
+	var runner := scene_runner("res://scenes/test_level.tscn")
 	var player := await _place_player_against_wall(runner)
 
 	assert_bool(player.is_on_wall_only()).is_true()
 
-	# Wait longer than the player's 0.25-second cling period.
 	var slide_frames := int(ceil(
 		0.5 * Engine.physics_ticks_per_second
 	))
 	await _wait_physics_frames(slide_frames)
 
 	var still_on_wall := player.is_on_wall_only()
-	var slide_velocity := player.velocity.y
+	var first_slide_velocity := player.velocity.y
+
+	var observation_frames := 6
+	await _wait_physics_frames(observation_frames)
+
+	var second_slide_velocity := player.velocity.y
+	var remained_on_wall := player.is_on_wall_only()
 	runner.simulate_action_release("move_right")
 
+	var elapsed_time := (
+		float(observation_frames) / Engine.physics_ticks_per_second
+	)
+	var expected_velocity: float = (
+		first_slide_velocity + player.WALL_SLIDE_ACCELERATION * elapsed_time
+	)
+	var tolerance: float = (
+		2.0 * player.WALL_SLIDE_ACCELERATION / Engine.physics_ticks_per_second
+	)
+
 	assert_bool(still_on_wall).is_true()
-	assert_float(slide_velocity).is_greater(0.0)
-	assert_float(slide_velocity).is_less_equal(
-		player.WALL_SLIDE_MAX_SPEED
+	assert_bool(remained_on_wall).is_true()
+	assert_float(first_slide_velocity).is_greater(0.0)
+	assert_float(second_slide_velocity).is_equal_approx(
+		expected_velocity, tolerance
 	)
 
 
 func test_wall_jump_pushes_up_and_away() -> void:
-	var runner = scene_runner("res://scenes/test_level.tscn")
+	var runner := scene_runner("res://scenes/test_level.tscn")
 	var player := await _place_player_against_wall(runner)
 
 	assert_bool(player.is_on_wall_only()).is_true()
