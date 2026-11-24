@@ -25,7 +25,7 @@ var _dash_direction := 1.0
 var _can_air_dash := true #we have a one-air-dash limit
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-@onready var animated_sprite = $AnimatedSprite2D
+@onready var animated_sprite := $AnimatedSprite2D
 
 var _wall_jump_lockout := 0.0
 var _wall_cling_time := 0.0
@@ -43,6 +43,7 @@ func _physics_process(delta: float) -> void:
 		_start_dash()
 
 	if _is_dashing:
+		animated_sprite.play("jump")
 		_update_dash(delta)
 		move_and_slide() #move player using dash velocity
 		return
@@ -95,6 +96,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			animated_sprite.play("walk")
 	else:
+		# TODO: add dash animation
 		# TODO: swap to a wall_slide animation when it exists.
 		animated_sprite.play("jump")
 
@@ -111,6 +113,7 @@ func _start_dash() -> void:
 	_is_dashing = true
 	_dash_timer = dash_time
 	_dash_cooldown_timer = dash_cooldown
+	
 	if not is_on_floor():
 		_can_air_dash = false
 		dash_available_changed.emit(false)
@@ -123,6 +126,11 @@ func _start_dash() -> void:
 		_dash_direction = 1.0 #right
 	else:
 		_dash_direction = -1.0 #left
+	
+	# TODO: implement offset calculation
+	# TODO: create dictionary for parameters
+	VFXManager.play("dash", global_position, _dash_direction < 0)
+		
 	dash_started.emit()
 
 func _update_dash(delta: float) -> void:
