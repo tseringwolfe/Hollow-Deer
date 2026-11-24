@@ -1,0 +1,123 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/actors/bosses/wolf.gd" id="1_script"]
+
+[sub_resource type="Gradient" id="Gradient_body"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(0.38, 0.4, 0.5, 1, 0.25, 0.26, 0.34, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_body"]
+gradient = SubResource("Gradient_body")
+width = 20
+height = 28
+fill_to = Vector2(0, 1)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_placeholder"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("GradientTexture2D_body")
+}],
+"loop": true,
+"name": &"cast",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("GradientTexture2D_body")
+}],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("GradientTexture2D_body")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("GradientTexture2D_body")
+}],
+"loop": true,
+"name": &"roar",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("GradientTexture2D_body")
+}],
+"loop": true,
+"name": &"summon",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("GradientTexture2D_body")
+}],
+"loop": true,
+"name": &"swipe",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("GradientTexture2D_body")
+}],
+"loop": true,
+"name": &"thrust",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("GradientTexture2D_body")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(20, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_detection"]
+size = Vector2(320, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_melee"]
+size = Vector2(30, 24)
+
+[node name="Wolf" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -14)
+sprite_frames = SubResource("SpriteFrames_placeholder")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -14)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+position = Vector2(0, -40)
+shape = SubResource("RectangleShape2D_detection")
+
+[node name="MeleeArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeArea"]
+position = Vector2(20, -12)
+shape = SubResource("RectangleShape2D_melee")
