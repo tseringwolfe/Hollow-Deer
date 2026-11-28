@@ -42,10 +42,14 @@ func _on_body_entered(_body: Node2D) -> void:
 func _trigger() -> void:
 	if _used or not enabled:
 		return
+	# Looked up at runtime so this @tool script compiles in the editor without the autoload.
+	var manager := get_node("/root/SceneManager")
+	# Ignore entries during a fade, but stay usable so the exit works on the next entry.
+	if manager.get(&"is_transitioning"):
+		return
 	_used = true
 	triggered.emit()
-	# Looked up at runtime so this @tool script compiles in the editor without the autoload.
-	get_node("/root/SceneManager").change_scene(target_scene, target_spawn)
+	manager.change_scene(target_scene, target_spawn)
 
 
 func _update_shape() -> void:
