@@ -26,17 +26,31 @@ func _ready() -> void:
 	add_child(_fade_rect)
 
 
-func change_scene(path: String, spawn_name: StringName = &"") -> void:
+## Returns true when the transition is accepted; scene_changed signals completion.
+func change_scene(path: String, spawn_name: StringName = &"") -> bool:
 	if is_transitioning:
-		return
-	if not ResourceLoader.exists(path):
-		push_error("SceneManager: scene not found: %s" % path)
-		return
+		return false
+	var scene := ResourceLoader.load(path, "PackedScene") as PackedScene
+	if scene == null or not scene.can_instantiate():
+		push_error("SceneManager: could not load scene: %s" % path)
+		return false
 	is_transitioning = true
+	_transition_to(scene, path, spawn_name)
+	return true
+
+
+## Reloads the current level from its start. Useful for death and restart flows.
+func reload_current_scene() -> void:
+	var scene := get_tree().current_scene
+	if scene != null:
+		change_scene(scene.scene_file_path)
+
+
+func _transition_to(scene: PackedScene, path: String, spawn_name: StringName) -> void:
 	transition_started.emit(path)
 	get_tree().paused = true
 	await _fade_to(1.0)
-	var err := get_tree().change_scene_to_file(path)
+	var err := get_tree().change_scene_to_packed(scene)
 	if err != OK:
 		push_error("SceneManager: failed to load %s (error %d)" % [path, err])
 		get_tree().paused = false
@@ -51,13 +65,6 @@ func change_scene(path: String, spawn_name: StringName = &"") -> void:
 	get_tree().paused = false
 	await _fade_to(0.0)
 	is_transitioning = false
-
-
-## Reloads the current level from its start. Useful for death and restart flows.
-func reload_current_scene() -> void:
-	var scene := get_tree().current_scene
-	if scene != null:
-		change_scene(scene.scene_file_path)
 
 
 func _place_player(scene: Node, spawn_name: StringName) -> void:

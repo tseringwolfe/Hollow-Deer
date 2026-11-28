@@ -44,12 +44,10 @@ func _trigger() -> void:
 		return
 	# Looked up at runtime so this @tool script compiles in the editor without the autoload.
 	var manager := get_node("/root/SceneManager")
-	# Ignore entries during a fade, but stay usable so the exit works on the next entry.
-	if manager.get(&"is_transitioning"):
+	if not manager.change_scene(target_scene, target_spawn):
 		return
 	_used = true
 	triggered.emit()
-	manager.change_scene(target_scene, target_spawn)
 
 
 func _update_shape() -> void:
