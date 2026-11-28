@@ -6,4 +6,5 @@
 
 # Export output
 build/
-
+/hollow-deer/reports/
+/hollow-deer/addons/gdUnit4/GdUnitRunner.cfg
