@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c4jbvfckfkh7a"]
 
-[ext_resource type="Texture2D" uid="uid://b7h5oa5as7eer" path="res://assets/deer.png" id="1_3vyb7"]
-[ext_resource type="Script" uid="uid://3y0npj1wc2dx" path="res://scripts/player.gd" id="1_g2els"]
+[ext_resource type="Texture2D" uid="uid://bprgsoiheecpn" path="res://assets/deer.png" id="1_3vyb7"]
+[ext_resource type="Script" uid="uid://2kxdmhy6rcdm" path="res://scripts/player.gd" id="1_g2els"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3v2ag"]
 atlas = ExtResource("1_3vyb7")
@@ -144,6 +144,7 @@ sprite_frames = SubResource("SpriteFrames_mq1tv")
 animation = &"jump"
 autoplay = "idle"
 frame_progress = 0.57602125
+flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1207493282]
 position = Vector2(0.5, -5)
