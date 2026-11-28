@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+SceneManager="*res://scripts/autoload/scene_manager.gd"
 VFXManager="*uid://dsc3pamr73qk7"
 
 [debug]

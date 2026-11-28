@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://ple6gotr7wbc"]
+
+[ext_resource type="Script" uid="uid://d4knee5lpmocs" path="res://scripts/levels/l01_test_a.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://c4jbvfckfkh7a" path="res://scenes/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/actors/enemies/slime.tscn" id="3_slime"]
+[ext_resource type="PackedScene" path="res://scenes/actors/enemies/enemy_base.tscn" id="4_enemy_base"]
+[ext_resource type="PackedScene" path="res://scenes/components/encounter_trigger.tscn" id="5_encounter"]
+[ext_resource type="PackedScene" path="res://scenes/components/level_transition.tscn" id="6_transition"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(600, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(8, 80)
+
+[node name="L01TestA" type="Node2D" unique_id=1405995072]
+script = ExtResource("1_script")
+
+[node name="Player" parent="." unique_id=1733925630 instance=ExtResource("2_player")]
+unique_name_in_owner = true
+position = Vector2(40, 140)
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1730908596]
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+
+[node name="SpawnFromB" type="Marker2D" parent="." unique_id=1585021894]
+position = Vector2(530, 140)
+
+[node name="Ground" type="StaticBody2D" parent="." unique_id=1584507483]
+position = Vector2(300, 160)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=1484733024]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="ColorRect" type="ColorRect" parent="Ground" unique_id=962243834]
+offset_left = -300.0
+offset_top = -10.0
+offset_right = 300.0
+offset_bottom = 10.0
+color = Color(0.5, 0.47, 0.72, 1)
+
+[node name="Enemies" type="Node2D" parent="." unique_id=1300465170]
+unique_name_in_owner = true
+
+[node name="Slime" parent="Enemies" unique_id=1112091865 instance=ExtResource("3_slime")]
+position = Vector2(280, 140)
+hop_velocity = -140.0
+hop_interval = 0.6
+
+[node name="Walker" parent="Enemies" unique_id=475993685 instance=ExtResource("4_enemy_base")]
+position = Vector2(360, 140)
+
+[node name="EncounterTrigger" parent="." unique_id=712567689 node_paths=PackedStringArray("enemies", "barriers") instance=ExtResource("5_encounter")]
+unique_name_in_owner = true
+position = Vector2(200, 120)
+enemies = [NodePath("../Enemies/Slime"), NodePath("../Enemies/Walker")]
+barriers = [NodePath("../LeftBarrier"), NodePath("../RightBarrier")]
+
+[node name="LeftBarrier" type="StaticBody2D" parent="." unique_id=1631577277]
+position = Vector2(170, 110)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftBarrier" unique_id=1714997881]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="LeftBarrier" unique_id=1026281922]
+offset_left = -4.0
+offset_top = -40.0
+offset_right = 4.0
+offset_bottom = 40.0
+color = Color(0.85, 0.25, 0.25, 1)
+
+[node name="RightBarrier" type="StaticBody2D" parent="." unique_id=2013629276]
+position = Vector2(450, 110)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightBarrier" unique_id=1731109842]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ColorRect" type="ColorRect" parent="RightBarrier" unique_id=1122774549]
+offset_left = -4.0
+offset_top = -40.0
+offset_right = 4.0
+offset_bottom = 40.0
+color = Color(0.85, 0.25, 0.25, 1)
+
+[node name="ExitToB" parent="." unique_id=1857145298 instance=ExtResource("6_transition")]
+unique_name_in_owner = true
+position = Vector2(590, 125)
+target_scene = "res://scenes/levels/l01_test_b.tscn"
+target_spawn = &"SpawnFromA"
+enabled = false
