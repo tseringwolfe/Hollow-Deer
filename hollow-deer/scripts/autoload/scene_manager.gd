@@ -36,7 +36,13 @@ func change_scene(path: String, spawn_name: StringName = &"") -> void:
 	transition_started.emit(path)
 	get_tree().paused = true
 	await _fade_to(1.0)
-	get_tree().change_scene_to_file(path)
+	var err := get_tree().change_scene_to_file(path)
+	if err != OK:
+		push_error("SceneManager: failed to load %s (error %d)" % [path, err])
+		get_tree().paused = false
+		await _fade_to(0.0)
+		is_transitioning = false
+		return
 	await get_tree().scene_changed
 	var new_scene := get_tree().current_scene
 	if spawn_name != &"":
