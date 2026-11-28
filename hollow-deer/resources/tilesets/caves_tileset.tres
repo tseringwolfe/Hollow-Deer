@@ -1,0 +1,75 @@
+[gd_resource type="TileSet" format=3 uid="uid://bjcge3uqakeg3"]
+
+[ext_resource type="Texture2D" uid="uid://cioq7p4cmrca0" path="res://assets/PixelFantasy_Caves_1.0/mainlev_build.png" id="1_caves"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_caves"]
+texture = ExtResource("1_caves")
+6:40/0 = 0
+6:40/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+6:58/0 = 0
+6:58/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+6:59/0 = 0
+7:40/0 = 0
+7:40/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+7:58/0 = 0
+7:58/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+7:59/0 = 0
+14:46/0 = 0
+14:46/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+14:47/0 = 0
+14:47/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+14:48/0 = 0
+14:48/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+14:49/0 = 0
+14:49/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+15:46/0 = 0
+15:46/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+15:47/0 = 0
+15:47/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+15:48/0 = 0
+15:48/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+15:49/0 = 0
+15:49/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:46/0 = 0
+16:46/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:47/0 = 0
+16:47/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:48/0 = 0
+16:48/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:49/0 = 0
+16:49/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+17:46/0 = 0
+17:46/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+17:47/0 = 0
+17:47/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+17:48/0 = 0
+17:48/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+17:49/0 = 0
+17:49/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:46/0 = 0
+18:46/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:47/0 = 0
+18:47/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:48/0 = 0
+18:48/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:49/0 = 0
+18:49/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+19:46/0 = 0
+19:46/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+19:47/0 = 0
+19:47/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+19:48/0 = 0
+19:48/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+19:49/0 = 0
+19:49/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+47:1/0 = 0
+47:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -7, 8, -7, 8, -3, -8, -3)
+47:1/0/physics_layer_0/polygon_0/one_way = true
+57:1/0 = 0
+57:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -7, 8, -7, 8, -3, -8, -3)
+57:1/0/physics_layer_0/polygon_0/one_way = true
+
+[resource]
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 0
+sources/0 = SubResource("TileSetAtlasSource_caves")

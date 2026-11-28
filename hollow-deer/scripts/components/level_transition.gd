@@ -47,6 +47,10 @@ func _trigger() -> void:
 	# Ignore entries during a fade, but stay usable so the exit works on the next entry.
 	if manager.get(&"is_transitioning"):
 		return
+	# A missing target would be rejected by SceneManager; stay usable instead of latching.
+	if not ResourceLoader.exists(target_scene):
+		push_warning("%s: target scene not found: %s" % [name, target_scene])
+		return
 	_used = true
 	triggered.emit()
 	manager.change_scene(target_scene, target_spawn)
